@@ -24,6 +24,7 @@ eureka:
     prefer-ip-address: true
     hostname: 127.0.0.1
 
+
 resilience4j:
   circuitbreaker:
     instances:
