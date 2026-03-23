@@ -1,3 +1,5 @@
+server:
+  port: 8082
 
 spring:
   application:
@@ -14,9 +16,6 @@ spring:
       ddl-auto: update
     show-sql: true
 
-server:
-  port: 8082
-
 eureka:
   client:
     service-url:
@@ -24,3 +23,12 @@ eureka:
   instance:
     prefer-ip-address: true
     hostname: 127.0.0.1
+
+# ⭐ Circuit Breaker Config
+resilience4j:
+  circuitbreaker:
+    instances:
+      authServiceCB:
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
