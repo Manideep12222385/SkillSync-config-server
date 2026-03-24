@@ -5,7 +5,9 @@ spring:
     discovery:
       enabled: true
     gateway:
-      routes:
+      server:
+        webflux:
+          routes:
         - id: auth-service
           uri: lb://AUTH-SERVICE
           predicates:
