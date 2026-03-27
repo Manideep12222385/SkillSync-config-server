@@ -1,64 +1,73 @@
+server:
+  port: 8085
+
 spring:
   application:
     name: api-gateway
+
   cloud:
     discovery:
       enabled: true
+
     gateway:
+      # ✅ FIXED CORS (important)
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "*"
-            allowedMethods: "*"
+            allowedOrigins:
+              - "http://localhost:8085"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
             allowedHeaders: "*"
-      server:
-        webflux:
-          routes:
-            - id: AUTH-SERVICE
-              uri: lb://auth-service
-              predicates:
-                - Path=/auth-service/**
-              filters:
-                - StripPrefix=1     # 👈 Missing, causes Forbidden 403 errors
-    
-            - id: MENTOR-SERVICE
-              uri: lb://mentor-service
-              predicates:
-                - Path=/mentor-service/**
-              filters:
-                - StripPrefix=1     # 👈 Missing, causes 404/403 errors
-    
-            - id: USER-SERVICE
-              uri: lb://user-service
-              predicates:
-                - Path=/user-service/**
-              filters:
-                - StripPrefix=1     # 👈 Missing, causes 404/403 errors
-    
-            - id: SESSION-SERVICE
-              uri: lb://session-service
-              predicates:
-                - Path=/session-service/**
-              filters:
-                - StripPrefix=1
-    
-            - id: REVIEW-SERVICE
-              uri: lb://review-service
-              predicates:
-                - Path=/review-service/**
-              filters:
-                - StripPrefix=1
-                
-            - id: SKILL-SERVICE
-              uri: lb://skill-service
-              predicates:
-                - Path=/skill-service/**
-              filters:
-                - StripPrefix=1
+            allowCredentials: true
 
+      # ✅ CORRECT ROUTES LOCATION (NOT under webflux)
+      routes:
+        - id: AUTH-SERVICE
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth-service/**
+          filters:
+            - StripPrefix=1
 
-server:
-  port: 8085
+        - id: MENTOR-SERVICE
+          uri: lb://mentor-service
+          predicates:
+            - Path=/mentor-service/**
+          filters:
+            - StripPrefix=1
+
+        - id: USER-SERVICE
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - StripPrefix=1
+
+        - id: SESSION-SERVICE
+          uri: lb://session-service
+          predicates:
+            - Path=/session-service/**
+          filters:
+            - StripPrefix=1
+
+        - id: REVIEW-SERVICE
+          uri: lb://review-service
+          predicates:
+            - Path=/review-service/**
+          filters:
+            - StripPrefix=1
+
+        - id: SKILL-SERVICE
+          uri: lb://skill-service
+          predicates:
+            - Path=/skill-service/**
+          filters:
+            - StripPrefix=1
 
 eureka:
   client:
@@ -67,17 +76,20 @@ eureka:
 
 management:
   endpoint:
-      gateway:
-        enabled: true 
+    gateway:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: "*"      
+        include: "*"
 
+# ✅ SWAGGER AGGREGATION FIX
 springdoc:
   api-docs:
     enabled: true
   swagger-ui:
+    disable-swagger-default-url: true
+    config-url: /v3/api-docs/swagger-config
     urls:
       - name: Auth Service API
         url: /auth-service/v3/api-docs
