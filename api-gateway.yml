@@ -1,11 +1,9 @@
 spring:
   application:
     name: api-gateway
-
   cloud:
     discovery:
       enabled: true
-
     gateway:
       server:
         webflux:
@@ -14,16 +12,22 @@ spring:
               uri: lb://auth-service
               predicates:
                 - Path=/auth-service/**
+              filters:
+                - StripPrefix=1     # 👈 Missing, causes Forbidden 403 errors
     
             - id: MENTOR-SERVICE
               uri: lb://mentor-service
               predicates:
                 - Path=/mentor-service/**
+              filters:
+                - StripPrefix=1     # 👈 Missing, causes 404/403 errors
     
             - id: USER-SERVICE
               uri: lb://user-service
               predicates:
                 - Path=/user-service/**
+              filters:
+                - StripPrefix=1     # 👈 Missing, causes 404/403 errors
     
             - id: SESSION-SERVICE
               uri: lb://session-service
