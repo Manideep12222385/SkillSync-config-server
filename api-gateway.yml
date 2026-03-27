@@ -5,6 +5,12 @@ spring:
     discovery:
       enabled: true
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
       server:
         webflux:
           routes:
