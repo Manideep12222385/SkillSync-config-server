@@ -1,6 +1,7 @@
+give me updated auth-service.yml,api-gateway.yml
 server:
-  port: 8081
   forward-headers-strategy: framework
+  port: 8081
 
 spring:
   application:
@@ -32,16 +33,13 @@ eureka:
       defaultZone: http://localhost:8761/eureka
   instance:
     prefer-ip-address: true
-    hostname: localhost   # ✅ FIXED (no more 172.x)
+    hostname: 127.0.0.1
 
-# ✅ Swagger FIX (VERY IMPORTANT)
 springdoc:
   api-docs:
     enabled: true
-    path: /v3/api-docs
   swagger-ui:
     enabled: true
-    use-root-path: true
 
 management:
   tracing:
@@ -49,7 +47,7 @@ management:
       probability: 1.0
   zipkin:
     tracing:
-      endpoint: http://localhost:9411/api/v2/spans
+      endpoint: "http://localhost:9411/api/v2/spans"
   endpoints:
     web:
       exposure:
