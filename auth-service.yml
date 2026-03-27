@@ -1,4 +1,3 @@
-give me updated auth-service.yml,api-gateway.yml
 server:
   forward-headers-strategy: framework
   port: 8081
