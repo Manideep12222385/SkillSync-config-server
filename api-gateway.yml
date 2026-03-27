@@ -46,6 +46,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+
 management:
   endpoint:
       gateway:
@@ -54,3 +55,19 @@ management:
     web:
       exposure:
         include: "*"      
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    urls:
+      - name: Auth Service API
+        url: /auth-service/v3/api-docs
+      - name: Mentor Service API
+        url: /mentor-service/v3/api-docs
+      - name: User Service API
+        url: /user-service/v3/api-docs
+      - name: Session Service API
+        url: /session-service/v3/api-docs
+      - name: Review Service API
+        url: /review-service/v3/api-docs
