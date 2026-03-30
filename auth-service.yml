@@ -1,6 +1,6 @@
 server:
   forward-headers-strategy: framework
-  port: 9081
+  port: 8081
 
 spring:
   application:
