@@ -52,7 +52,7 @@ spring:
 
 
 server:
-  port: 9095
+  port: 8095
 
 eureka:
   client:
